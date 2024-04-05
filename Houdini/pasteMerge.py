@@ -24,6 +24,9 @@ if clipboard:
             if hou.node(item) != None:
                 merge = hou.node(networkpath).createNode('object_merge','IN_'+item.split('/')[-1])
                 merge.parm('objpath1').set(str(item))
+                name = merge.name().replace("OUT_","")
+                merge.setName(name,1)
+                merge.setColor(hou.Color((0.29,0.565,0.886)))
                 merge.setPosition(pos)
                 merge.move([n*2,0])
                 if n == 0:
@@ -32,7 +35,7 @@ if clipboard:
                     merge.setSelected(True,False)
                 n = n + 1
         except:
-            print("pasteMerge - not a sop context")
+            print("pasteMerge: not a sop context")
         
         #paste a fetch if we're in a rop context - this could be more elegant
         try:
@@ -47,4 +50,4 @@ if clipboard:
                     merge.setSelected(True,False)
                 n = n + 1
         except:
-            print("pasteMerge - not a rop context")
+            print("pasteMerge: not a rop context")
