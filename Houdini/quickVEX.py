@@ -4,6 +4,7 @@
 
 import hou
 import toolutils
+import vexpressionmenu
 
 #use selected wrangle or create new one:
 wrangle = 0
@@ -45,7 +46,7 @@ if not wrangle:
 #ADD ALL THE QUICK VEX SCRIPTS HERE:
 
 #add it to option
-options = ("pcfilter","percentage","NaN","ramp","primUvDeform")
+options = ("pcfilter","percentage","NaN","ramp","primUvDeform","boxify")
 #...and create a variable of the same name containing the VEX code
 
 pcfilter = '''//pcfilter
@@ -56,6 +57,15 @@ vector p1 = pcfilter(handle,"P");
 @P = p1;
 
 '''
+
+boxify = '''vector centroid = getbbox_center(0);
+vector size = getbbox_size(0);
+size = max(size); // Largest component
+@P -= centroid;
+@P *= (1.0/size);
+@P = lerp(@P, @P+clamp(normalize(@P)*1.75,vector(-1),vector(1)) * (1.0-length(max(abs(@P)))), chf('blend'));
+@P *= size;
+@P += centroid;'''
 
 percentage = '''if(rand(@ptnum)>chf("keep"))removepoint(0,@ptnum);
 
@@ -101,6 +111,7 @@ choice = int(choice[0])
 #set wrangle options
 wrangle.setName(options[choice],True)
 wrangle.parm("snippet").set(eval(str(options[choice])))
+vexpressionmenu.createSpareParmsFromChCalls(wrangle, 'snippet')
 
 wrangle.setDisplayFlag(1)
 wrangle.setRenderFlag(1)
