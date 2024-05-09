@@ -6,6 +6,7 @@
 #this tool is based on a script I found online.
 
 import hou
+import commstd.houdini
 
 network = hou.ui.curDesktop().paneTabUnderCursor()
 networkpath = network.pwd().path()
@@ -35,12 +36,19 @@ if clipboard:
                     merge.setSelected(True,False)
                 n = n + 1
         except:
-            print("pasteMerge: not a sop context")
+            print("not a sop context")
         
         #paste a fetch if we're in a rop context - this could be more elegant
         try:
             if hou.node(item) != None:
-                merge = hou.node(networkpath).createNode('fetch','fetch_'+item.split('/')[-1])
+                
+                try:
+                    #FS pipeline?
+                    merge = commstd.houdini.create_node('/out','fetch_'+item.split('/')[-1])
+                except:
+                    #Home computer!
+                    merge = hou.node(networkpath).createNode('fetch','fetch_'+item.split('/')[-1])
+                
                 merge.parm('source').set(str(item))
                 merge.setPosition(pos)
                 merge.move([n*2,0])
@@ -50,4 +58,4 @@ if clipboard:
                     merge.setSelected(True,False)
                 n = n + 1
         except:
-            print("pasteMerge: not a rop context")
+            print("not a rop context")
