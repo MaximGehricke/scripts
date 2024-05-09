@@ -46,7 +46,7 @@ if not wrangle:
 #ADD ALL THE QUICK VEX SCRIPTS HERE:
 
 #add it to option
-options = ("pcfilter","percentage","NaN","ramp","primUvDeform","boxify")
+options = ("pcfilter","percentage","NaN","ramp","primUvDeform","packedRandomize","boxify","spherify","twirl")
 #...and create a variable of the same name containing the VEX code
 
 pcfilter = '''//pcfilter
@@ -57,6 +57,23 @@ vector p1 = pcfilter(handle,"P");
 @P = p1;
 
 '''
+packedRandomize = '''//randomize rotation and scale of packed prims
+
+matrix3 x = primintrinsic(0,'transform',i@primnum);
+
+vector r = sample_direction_uniform(rand(@primnum));
+
+float scale = fit01(rand(i@primnum),chf("min"),chf("max"));
+vector s = set(scale, scale, scale);
+
+rotate(x, PI*pow(rand(@primnum-666),0.5), r);
+scale(x,s);
+setprimintrinsic(0,'transform',i@primnum,x);'''
+
+twirl = '''float a = chf('angle') * length(@P * {1, 0, 1});
+float u = atan2(@P.x, @P.z);
+float r = length(@P * {1, 0, 1});
+@P = set(sin(u-a), @P.y, cos(u-a)) * set(r,1,r);'''
 
 boxify = '''vector centroid = getbbox_center(0);
 vector size = getbbox_size(0);
@@ -64,6 +81,15 @@ size = max(size); // Largest component
 @P -= centroid;
 @P *= (1.0/size);
 @P = lerp(@P, @P+clamp(normalize(@P)*1.75,vector(-1),vector(1)) * (1.0-length(max(abs(@P)))), chf('blend'));
+@P *= size;
+@P += centroid;'''
+
+spherify = '''vector centroid = getbbox_center(0);
+vector size = getbbox_size(0);
+size = min(size); // Largest component
+@P -= centroid;
+@P *= (1.0/size);
+@P = lerp(@P, normalize(@P), chf('blend'));
 @P *= size;
 @P += centroid;'''
 
