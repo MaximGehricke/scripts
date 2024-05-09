@@ -66,8 +66,8 @@ vector r = sample_direction_uniform(rand(@primnum));
 float scale = fit01(rand(i@primnum),chf("min"),chf("max"));
 vector s = set(scale, scale, scale);
 
-rotate(x, PI*pow(rand(@primnum-666),0.5), r);
-scale(x,s);
+if(chi("rotate")) rotate(x, PI*pow(rand(@primnum-666),0.5), r);
+if(chi("scale")) scale(x,s);
 setprimintrinsic(0,'transform',i@primnum,x);'''
 
 twirl = '''float a = chf('angle') * length(@P * {1, 0, 1});
