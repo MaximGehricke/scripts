@@ -1,7 +1,7 @@
 #ManAutoToggle
 #toggles between manual and AutoUpdate mode
 #icon = DOP_staticsolver
-#hotkey = F11
+#hotkey = F11,F5
 
 import hou
 mode = hou.updateModeSetting().name()
