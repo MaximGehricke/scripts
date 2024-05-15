@@ -1,4 +1,4 @@
-rendertime
+#rendertime
 #measure the rendertime. found at: https://github.com/carlo-liparata/arnold-render-timer/blob/main/arnold-render-timer.py
 #icon = opdef:/Driver/arnold?IconSVG
 
