@@ -1,8 +1,6 @@
 #latestWorkfile
 #loads the latest workfile from a selection. Meant to be customized manually for a show.
-
-
-
+#icon = SOP_file
 
 import hou, os
 
