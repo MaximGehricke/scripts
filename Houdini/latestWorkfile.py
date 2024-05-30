@@ -16,10 +16,13 @@ filename = """/path/to/file/filename"""
 ##########################################################
 
 #choose workfile:
-choice = hou.ui.selectFromList(options,exclusive=True)
+choice = hou.ui.selectFromList(options,exclusive=True,clear_on_cancel=True)
 #choice = hou.ui.displayMessage(str(node),buttons=options) button options instead of list
-choice = int(choice[0])
-
+try:
+    choice = int(choice[0])
+except:
+    print("latestWorkfile -- improper selection!")
+    exit()
 workfile = (eval(str(options[choice])))
 
 
