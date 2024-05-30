@@ -8,10 +8,10 @@ import hou, os
 #ADD YOUR WORKFILES HERE:
 
 #add it to option
-options = ("s0080")
+options = ("filename")
 #...and create a variable of the same name containing the workfile path
 
-s0080 = """/job/comms/dyson_n683_2006645/dn030/dn030_0080/work/fx/fx/houdini/workfile/dn030_0080_fx_default_v001.hip"""
+filename = """/path/to/file/filename"""
 
 ##########################################################
 
@@ -43,4 +43,4 @@ file = file.replace(orig_version,version)
 
 fileToLoad = path+file
 print(fileToLoad)
-hou.hipFile.load(fileToLoad)
+hou.hipFile.load(fileToLoad,suppress_save_prompt=True)
