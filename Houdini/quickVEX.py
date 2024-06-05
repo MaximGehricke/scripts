@@ -46,7 +46,7 @@ if not wrangle:
 #ADD ALL THE QUICK VEX SCRIPTS HERE:
 
 #add it to option
-options = ("pcfilter","percentage","NaN","ramp","primUvDeform","packedRandomize","boxify","spherify","twirl")
+options = ("pcfilter","percentage","NaN","ramp","primUvDeform","packedRandomize","boxify","spherify","twirl","masklerp")
 #...and create a variable of the same name containing the VEX code
 
 pcfilter = '''//pcfilter
@@ -126,6 +126,8 @@ float dist = xyzdist(1,@P,posprim,parm_uv);
 '''
 
 minSpeed = '''if(length(v@v)<chf("minSpeed"))removepoint(0,@ptnum);'''
+
+masklerp = '''v@P=lerp(v@P,v@opinput1_P,@mask*chf("lerp"));'''
 
 ##########################################################
 
