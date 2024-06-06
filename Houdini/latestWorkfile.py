@@ -8,7 +8,7 @@ import hou, os
 #ADD YOUR WORKFILES HERE:
 
 #add it to option
-options = ("filename")
+options = ("copy current .hip path","cable","torch")
 #...and create a variable of the same name containing the workfile path
 
 filename = """/path/to/file/filename"""
@@ -17,7 +17,34 @@ filename = """/path/to/file/filename"""
 
 #choose workfile:
 choice = hou.ui.selectFromList(options,exclusive=True,clear_on_cancel=True)
-#choice = hou.ui.displayMessage(str(node),buttons=options) button options instead of list
+
+#if first option is selected, copy to clipboard
+if choice[0]==0:
+    import sys
+    if sys.platform.startswith('win'):
+        # Code for Windows
+        print("Windows: copying .hip path to clipboard")
+        import win32clipboard
+        text = hou.hipFile.path()
+        win32clipboard.OpenClipboard()
+        win32clipboard.EmptyClipboard()
+        win32clipboard.SetClipboardData(win32clipboard.CF_UNICODETEXT, text)
+        win32clipboard.CloseClipboard()
+    
+    elif sys.platform.startswith('linux'):
+        # Code for Linux
+        print("Linux: copying .hip path to clipboard")
+        import subprocess
+        text = hou.hipFile.path()
+        p2 = subprocess.Popen(['xclip', '-selection', 'clipboard', '-i'], stdin=subprocess.PIPE)
+        p2.communicate(input=text.encode())
+    else:
+        # Code for other platforms
+        print("Running on a platform other than Windows or Linux! Did not copy .hip path")
+
+    exit()
+
+
 try:
     choice = int(choice[0])
 except:
