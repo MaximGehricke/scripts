@@ -63,9 +63,12 @@ filesInDir = [f for f in os.listdir(path) if os.path.isfile(path + f)]
 
 latest = 1
 for found in filesInDir:
-    if(basename in found and ".hip" in found):
-        ver = int(found.split(".hip")[0].split("_")[-1].replace("v",""))
-        if(ver>latest): latest=ver
+    if basename:
+        if(basename in found and ".hip" in found):
+            ver = int(found.split(".hip")[0].split("_")[-1].replace("v",""))
+            if(ver>latest): latest=ver
+    else:
+        print("DEBUG: no basename - does file have '_v001' in it's name?")
 
 print("latest: ",latest)
 version = "v"+str(latest).zfill(3)
