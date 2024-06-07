@@ -1,6 +1,7 @@
 #solidTemplate
 #toggles current viewer template mode between solid and ghosted wireframe
 #icon = opdef:/labs::Sop/export_uv_wireframe?IconSVG
+#hotkey = =
 
 import hou
 
