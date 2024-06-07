@@ -16,7 +16,7 @@ lastNode = "noNodeSelected29834787320~###"
 lowestPos = 10000000000;
 for node in selectedNodes:
     #check if OUT already exists, if so toggle to Null
-    if name in node.name():
+    if "OUT_" in node.name():
         if node.type().name()=="output":
             node.changeNodeType("null")
             exit()
