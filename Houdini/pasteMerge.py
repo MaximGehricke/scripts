@@ -6,7 +6,6 @@
 #this tool is based on a script I found online.
 
 import hou
-import commstd.houdini
 
 network = hou.ui.curDesktop().paneTabUnderCursor()
 networkpath = network.pwd().path()
@@ -44,6 +43,7 @@ if clipboard:
                 
                 try:
                     #FS pipeline?
+                    import commstd.houdini
                     merge = commstd.houdini.create_node('networkpath','fetch', 'fetch_'+item.split('/')[-1])
                 except:
                     #Home computer!
