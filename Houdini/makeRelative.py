@@ -1,6 +1,8 @@
 #makeRelative
 #replaces absolute paths with relative ones
 #icon = SOP_name
+# hotkey = alt + r
+
 
 import hou
 
