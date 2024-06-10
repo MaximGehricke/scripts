@@ -1,4 +1,4 @@
-#replace.py
+#replace
 #search and replace node names and parameters
 #icon = hicon:/SVGIcons.index?BUTTONS_search_and_replace.svg
 #NOT MY WORK, copied from: https://github.com/seanryanmcewan/houdini-find-and-replace/blob/master/find_and_replace.py
