@@ -44,7 +44,7 @@ if clipboard:
                 try:
                     #FS pipeline?
                     import commstd.houdini
-                    merge = commstd.houdini.create_node('networkpath','fetch', 'fetch_'+item.split('/')[-1])
+                    merge = commstd.houdini.create_node(networkpath,'fetch', 'fetch_'+item.split('/')[-1])
                 except:
                     #Home computer!
                     merge = hou.node(networkpath).createNode('fetch','fetch_'+item.split('/')[-1])
