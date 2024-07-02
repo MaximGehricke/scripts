@@ -1,6 +1,6 @@
 #setVis
 #sets -Use Visibility- to 0 on the alembics inside selected ObjNodes
-#icon = ROP_alembic
+#icon = SOP_visibility
 
 times = 0
 parents = hou.selectedNodes()
