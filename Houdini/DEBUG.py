@@ -9,7 +9,7 @@ nodes = hou.selectedNodes()
 
 if nodes:
     for node in nodes:
-        node.setName("DEBUG___"+str(node))
+        node.setName("DEBUG___"+str(node),unique_name=True)
         node.setColor(hou.Color((1,0,0)))
 else:
     pane = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
@@ -17,5 +17,5 @@ else:
        hou.ui.displayMessage('Cannot create node: cannot find any network pane')
     
     node = pane.currentNode()
-    node.setName("DEBUG___"+str(node))
+    node.setName("DEBUG___"+str(node),unique_name=True)
     node.setColor(hou.Color((1,0,0)))
