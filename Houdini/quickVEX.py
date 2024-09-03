@@ -132,10 +132,13 @@ masklerp = '''v@P=lerp(v@P,v@opinput1_P,@mask*chf("lerp"));'''
 ##########################################################
 
 #choose quickVex preset:
-choice = hou.ui.selectFromList(options,exclusive=True)
+choice = hou.ui.selectFromList(options,exclusive=True,clear_on_cancel=True)
 #choice = hou.ui.displayMessage(str(node),buttons=options) button options instead of list
-choice = int(choice[0])
-
+if choice:
+    choice = int(choice[0])
+else:
+    exit()
+    
 #set wrangle options
 wrangle.setName(options[choice],True)
 wrangle.parm("snippet").set(eval(str(options[choice])))
