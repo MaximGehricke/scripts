@@ -16,7 +16,9 @@ filename = """/path/to/file/filename"""
 ##########################################################
 
 #choose workfile:
-choice = hou.ui.selectFromList(options,exclusive=True,clear_on_cancel=True)
+choice = hou.ui.selectFromList(options,exclusive=True)
+if not choice:
+    exit()
 
 #if first option is selected, copy to clipboard
 if choice[0]==0:
