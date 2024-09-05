@@ -9,7 +9,6 @@ nodes = hou.selectedNodes()
 
 if nodes:
     for node in nodes:
-
         #freeze default timeshift to current frame:
         if "timeshift" in str(node) and len(str(node))<13:
             frameparm = node.parm('frame')
@@ -17,6 +16,7 @@ if nodes:
                 print("froze timeshift at current frame")
                 frameparm.deleteAllKeyframes()
                 frameparm.set(hou.frame())
+                node.setName("freeze___"+str(hou.frame()).split(".")[0]+"___",unique_name=True)
                 
         node.setName("DEBUG___"+str(node),unique_name=True)
         node.setColor(hou.Color((1,0,0)))
