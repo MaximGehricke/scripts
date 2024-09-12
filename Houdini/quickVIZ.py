@@ -5,6 +5,7 @@
 import hou
 import sys
 import random
+import math
 
 scope = hou.viewportVisualizerCategory.Scene
 viewport = hou.ui.paneTabOfType(hou.paneTabType.SceneViewer).selectedViewport()
@@ -74,11 +75,23 @@ def getAttributeInfo(attribname, node):
     name = attribute.name()
     datatype = str(attribute.dataType()).split(".")[-1]
     size = attribute.size()
-
+    min = 0
+    max = 1
+    ptArray = node.geometry().points()
+    if len(ptArray)<100000000:
+        for point in ptArray:
+            av = point.attribValue("k")
+            if av>max:
+                max = av
+            elif av<min:
+                min = av
+        
     info = {
     "attribute" : name,
     "datatype" : datatype,
-    "size" : size
+    "size" : size,
+    "min" : math.floor(min),
+    "max" : math.ceil(max)
     }  
     return info
     
@@ -103,8 +116,7 @@ def vizSetVectorColor(viz,info):
         viz.setParm("markercolora",1)
 
 
-def customizeViz(viz, info):
-    
+def customizeViz(viz, info): 
     #set type based on float or vector
     if info["size"]== 3:
         viz.setType(hou.viewportVisualizers.types()[0]) #viz_marker
@@ -118,20 +130,18 @@ def customizeViz(viz, info):
         viz.setIsActive(1,viewport)#set active
         viz.setParm("colortype",1) #set ramped attrib
         viz.setParm("rangespec",1) #set to manual range
-        viz.setParm("minscalar",0) #set min 
-        viz.setParm("maxscalar",1) #set max
+        viz.setParm("minscalar",info["min"]) #set min 
+        viz.setParm("maxscalar",info["max"]) #set max
         
         #set ramp to infrared        
         bases = [hou.rampBasis.Linear]
         keys = [0.0, 0.25, 0.5, 0.75, 1.0]
         values = [(0.2, 0.0, 1.0), (0.0, 0.85, 1.0), (0.0, 1.0, 0.1),(0.95, 1.0, 0.0), (1.0, 0.0, 0.0)]
         ramp = hou.Ramp(bases, keys, values)
-        
         viz.setParm("colorramp",ramp)
    
     else:
         hou.ui.displayMessage("attribute type is not supported. Info: "+ str(info))
-        
     return
         
 def main():
