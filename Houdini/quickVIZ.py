@@ -77,15 +77,16 @@ def getAttributeInfo(attribname, node):
     size = attribute.size()
     min = 0
     max = 1
-    ptArray = node.geometry().points()
-    if len(ptArray)<100000000:
-        for point in ptArray:
-            av = point.attribValue("k")
-            if av>max:
-                max = av
-            elif av<min:
-                min = av
-        
+    if size==1:        
+        ptArray = node.geometry().points()
+        if len(ptArray)<100000000:
+            for point in ptArray:
+                av = point.attribValue(attribute)
+                if av>max:
+                    max = av
+                elif av<min:
+                    min = av    
+
     info = {
     "attribute" : name,
     "datatype" : datatype,
