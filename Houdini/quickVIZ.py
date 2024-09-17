@@ -21,13 +21,14 @@ viz_constraints
 viz_captureweight
 """
 
-def getUserInputString():
-    input = str(hou.ui.readInput("attribute name pls")[1])
-    if not input:
+def getUserInput():
+    input = hou.ui.readInput("attribute name pls",buttons=('Keep Existing','Destroy Existing','Cancel'),default_choice = 0, close_choice=2)
+    if not input or input[0]==2:
         print("no input, exiting")
         sys.exit(0)
     else:
         return input
+        
         
 def destroyExistingViz():
     #destroy all existing
@@ -147,19 +148,23 @@ def customizeViz(viz, info):
         
 def main():
         
-    destroyExistingViz()
-    
-    #get user input...
-    input = getUserInputString()
-    #...and create new viz
-    viz = createViz(input)
-    
+    #get user input
+    input = getUserInput()
+
     #gather info about attribute on current node...
-    info = getAttributeInfo(input,getCurrentNode())
+    info = getAttributeInfo(input[1],getCurrentNode())
     if not info:
         hou.ui.displayMessage("Attribute does not exist on current node")
         exit()
-    #...and customize the visualizer based on it  
+    
+    #destroy existing if chosen
+    if input[0] == 1:
+        destroyExistingViz()
+    
+    #create new viz
+    viz = createViz(input[1])
+      
+    #customize visualizer based on attrib info
     customizeViz(viz, info)
     
 main()
