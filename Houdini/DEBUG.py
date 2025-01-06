@@ -17,7 +17,10 @@ if nodes:
                 frameparm.deleteAllKeyframes()
                 frameparm.set(hou.frame())
                 node.setName("freeze___"+str(hou.frame()).split(".")[0]+"___",unique_name=True)
-                
+        if "blast" in str(node) and len(str(node))<8:
+            parm = node.parm('negate')
+            parm.set(1)
+        
         node.setName("DEBUG___"+str(node),unique_name=True)
         node.setColor(hou.Color((1,0,0)))
 else:
