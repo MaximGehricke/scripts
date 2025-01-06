@@ -1,6 +1,7 @@
 #quickVIZ
 #quickly add a visualizer based on attribute name
 #icon = SOP_visualize
+#hotkey = Shift + v 
 
 import hou
 import sys
@@ -22,13 +23,12 @@ viz_captureweight
 """
 
 def getUserInput():
-    input = hou.ui.readInput("attribute name pls",buttons=('Keep Existing','Destroy Existing','Cancel'),default_choice = 0, close_choice=2)
+    input = hou.ui.readInput("attribute name pls",buttons=('Keep Existing','Destroy Existing','Cancel'),default_choice = 1, close_choice=2)
     if not input or input[0]==2:
         print("no input, exiting")
         sys.exit(0)
     else:
         return input
-        
         
 def destroyExistingViz():
     #destroy all existing
@@ -80,7 +80,7 @@ def getAttributeInfo(attribname, node):
     max = 1
     if size==1:        
         ptArray = node.geometry().points()
-        if len(ptArray)<100000000:
+        if len(ptArray)<10000:
             for point in ptArray:
                 av = point.attribValue(attribute)
                 if av>max:
@@ -118,7 +118,7 @@ def vizSetVectorColor(viz,info):
         viz.setParm("markercolora",1)
 
 
-def customizeViz(viz, info): 
+def customizeViz(viz, info):    
     #set type based on float or vector
     if info["size"]== 3:
         viz.setType(hou.viewportVisualizers.types()[0]) #viz_marker
@@ -140,10 +140,12 @@ def customizeViz(viz, info):
         keys = [0.0, 0.25, 0.5, 0.75, 1.0]
         values = [(0.2, 0.0, 1.0), (0.0, 0.85, 1.0), (0.0, 1.0, 0.1),(0.95, 1.0, 0.0), (1.0, 0.0, 0.0)]
         ramp = hou.Ramp(bases, keys, values)
+        
         viz.setParm("colorramp",ramp)
    
     else:
         hou.ui.displayMessage("attribute type is not supported. Info: "+ str(info))
+        
     return
         
 def main():
