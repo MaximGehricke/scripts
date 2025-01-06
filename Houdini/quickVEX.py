@@ -6,7 +6,6 @@ import hou
 import toolutils
 import vexpressionmenu
 
-
 def findLowestSelNode():
     #finds the lowest of all selected nodes
     selectedNodes = hou.selectedNodes()
@@ -22,7 +21,6 @@ def findLowestSelNode():
                 lowestNode = node
     return lowestNode
 
-
 def placeNode(node):
         #node.setCurrent(1, 1)
         networkEditor = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
@@ -36,6 +34,7 @@ def placeNode(node):
             node.setPosition(lowestNode.position())
             node.move(hou.Vector2(0.0,-1.0))
         
+
         
 def wrangleCreate():
     #use selected wrangle or create new one:
@@ -57,6 +56,7 @@ def wrangleCreate():
 
         wrangle = pane.pwd().createNode('attribwrangle')
     return wrangle
+
         
    
 def connectNode(node):
@@ -69,6 +69,7 @@ def connectNode(node):
         
         node.setInput(0,lowestNode)
    
+
    
 def main():
 
