@@ -1,6 +1,8 @@
-# hide_camera_view_menu.py
-#
-# Hides cameras for the sceneview camera and renderview camera dropdown menus.
+# hideCamViewMenu
+# Hides cameras for the sceneview camera and renderview camera dropdown menus. 
+# icon = OBJ_camera
+
+
 # Given a selected camera in the obj context, create the soho_viewport_menu and 
 # soho_renderview_menu params if needed and set them to false.
 # script by Shawn Lipowski
