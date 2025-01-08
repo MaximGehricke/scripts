@@ -1,5 +1,7 @@
 #bypassDebug
 #bypasses nodes with "DEBUG" in the name
+# icon = DIALOG_error
+
 import hou
 
 def search_debug_nodes():
