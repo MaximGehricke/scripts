@@ -29,8 +29,11 @@ if node is not None:
 
 
 
-#velvetSetCam
-#F7
+#setCam
+#sets current SL camera 
+#icon = OBJ_camera
+#hotkey = F7
+
 import hou
 
 def get_viewport_cameras():
