@@ -7,7 +7,7 @@
 import hou
 
 nodes = hou.selectedNodes()
-parmsToAffect = ["cache_path","cachepath","campath","cmp_camera","source","shop_materialpath","objpath1","objpath2","objpath3","objpath4","objpath5","objpath6","objpath7","objpath8","objpath9","objpath10","soppath","sop_path"]
+parmsToAffect = ["cache_path","cachepath","campath","cmp_camera","source","shop_materialpath","shop_materialpath1","shop_materialpath2","shop_materialpath3","shop_materialpath4","objpath1","objpath2","objpath3","objpath4","objpath5","objpath6","objpath7","objpath8","objpath9","objpath10","soppath","sop_path"]
 
 for node in nodes:
     for parm in node.parms():
