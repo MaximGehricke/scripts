@@ -24,13 +24,18 @@ def getCurCam():
 def createFont():
     node = hou.node("/obj").createNode("geo", "font_geo")
     font = node.createNode("font")
+    mat = node.createNode("material", "flat_white")
+    mat.parm("shop_materialpath1").set("/shop/white")
+    mat.setInput(0, font)
+    parent_pos = font.position()
+    mat.setPosition((parent_pos[0], parent_pos[1] - 1))
     return font
     
 def placeFont(font,cam):
     font = font.parent()
     font.setInput(0, cam)
-    font.parmTuple("t").set((1.75, -1.1, -5))
-    font.parmTuple("s").set((0.25, 0.25, 0.25))
+    font.parmTuple("t").set((0.04, -0.025, -0.1))
+    font.parmTuple("s").set((0.003, 0.003, 0.003))
     parent_pos = cam.position()
     font.setPosition((parent_pos[0], parent_pos[1] - 1))
     font.setName(str(cam.name())+"_font", unique_name=True)
@@ -40,6 +45,3 @@ cam = getCurCam()
 font = createFont()
 placeFont(font,cam)
 hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor).setCurrentNode(font)
-    
-
-
