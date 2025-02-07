@@ -118,18 +118,20 @@ def vizSetVectorColor(viz,info):
         viz.setParm("markercolora",1)
 
 
-def customizeViz(viz, info):    
+def customizeViz(viz, info):
     #set type based on float or vector
-    if info["size"]== 3:
+    if info["datatype"]== "Int":
+        viz.setType(hou.viewportVisualizers.types()[1]) #viz_marker
+        viz.setParm("colortype",4) #set rand from attrib
+    
+    elif info["size"]== 3:
         viz.setType(hou.viewportVisualizers.types()[0]) #viz_marker
-        viz.setIsActive(1,viewport)
         viz.setParm("style",4) #set vector
         viz.setParm("arrowheads",1)#set arrow
         #set color
         vizSetVectorColor(viz,info)       
     elif info["size"] == 1:
         viz.setType(hou.viewportVisualizers.types()[1]) #viz_color
-        viz.setIsActive(1,viewport)#set active
         viz.setParm("colortype",1) #set ramped attrib
         viz.setParm("rangespec",1) #set to manual range
         viz.setParm("minscalar",info["min"]) #set min 
@@ -145,7 +147,9 @@ def customizeViz(viz, info):
    
     else:
         hou.ui.displayMessage("attribute type is not supported. Info: "+ str(info))
+        return        
         
+    viz.setIsActive(1,viewport)
     return
         
 def main():
