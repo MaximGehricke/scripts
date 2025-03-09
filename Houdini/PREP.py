@@ -20,9 +20,13 @@ for node in selectedNodes:
 
 pos = lastNode.position()
 offset = hou.Vector2(0.0,1.0)
-path = lastNode.path().replace(lastNode.path().split("/")[-1],"")
+pathSplit = lastNode.path().split("/")
+pathSplit.pop(-1)
+path = ""
+for i in pathSplit:
+    path = path + "/" + i
 color = hou.Color((0.475,0.812,0.204))
-print(path)
+
 
 #create nodes and set position and color
 unpack = hou.node(path).createNode('unpack')
