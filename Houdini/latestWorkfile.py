@@ -8,7 +8,7 @@ import hou, os
 #ADD YOUR WORKFILES HERE:
 
 #add it to option
-options = ("copy current .hip path","cable","torch")
+options = ("copy current .hip path","f")
 #...and create a variable of the same name containing the workfile path
 
 filename = """/path/to/file/filename"""
@@ -78,4 +78,5 @@ file = file.replace(orig_version,version)
 
 fileToLoad = path+file
 print(fileToLoad)
+hou.setUpdateMode(hou.updateMode.Manual)
 hou.hipFile.load(fileToLoad,suppress_save_prompt=True)
