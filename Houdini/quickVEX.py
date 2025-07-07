@@ -21,22 +21,21 @@ def findLowestSelNode():
                 lowestNode = node
     return lowestNode
 
-def placeNode(node):
+
+def placeNode(node,networkEditor):
         #node.setCurrent(1, 1)
-        networkEditor = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
-        screenBounds = networkEditor.visibleBounds()
-        screenCenter = screenBounds.center()
-        node.move(screenCenter)
-        #sceneViewer = hou.ui.paneTabOfType(hou.paneTabType.SceneViewer)
-        #sceneViewer.enterCurrentNodeState()
         lowestNode = findLowestSelNode()
-        if lowestNode:
-            node.setPosition(lowestNode.position())
-            node.move(hou.Vector2(0.0,-1.0))
-        
+        if lowestNode!=node:
+            screenBounds = networkEditor.visibleBounds()
+            screenCenter = screenBounds.center()
+            node.move(screenCenter)
+            if lowestNode:
+                node.setPosition(lowestNode.position())
+                node.move(hou.Vector2(0.0,-1.0))
+            
 
         
-def wrangleCreate():
+def wrangleCreate(networkEditor):
     #use selected wrangle or create new one:
     newWrangle = 0
     nodes = hou.selectedNodes()
@@ -45,10 +44,9 @@ def wrangleCreate():
             if "attribwrangle" in str(node.type()):
                 if "attribwrangle" in node.name():
                     wrangle = node
-                    break
-    if not newWrangle:
-        pane = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
-        
+                    return wrangle
+
+        pane = networkEditor
         if pane is None:
            hou.ui.displayMessage(
                    'Cannot create node: cannot find any network pane')
@@ -62,7 +60,7 @@ def wrangleCreate():
 def connectNode(node):
     #connect to lowest of selected nodes:
     lowestNode = findLowestSelNode()
-    if lowestNode:
+    if lowestNode and lowestNode!=node:
         if lowestNode.outputConnections():
             output = lowestNode.outputs()[0]
             output.setInput(0,node)
@@ -169,9 +167,20 @@ def main():
     else:
         exit()
     
-    #make, place and connect node, create parameters
-    wrangle = wrangleCreate()
-    placeNode(wrangle)
+    selected_node = next(iter(hou.selectedNodes()), None)
+    networkEditor = None
+    if selected_node:
+        node_parent = selected_node.parent()
+        for pane in hou.ui.paneTabs():
+            if isinstance(pane, hou.NetworkEditor) and pane.pwd() == node_parent:
+                networkEditor = pane
+                break
+                
+    if networkEditor is None:
+        networkEditor = hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
+        
+    wrangle = wrangleCreate(networkEditor)
+    placeNode(wrangle,networkEditor)
     connectNode(wrangle)
             
     #set wrangle options
