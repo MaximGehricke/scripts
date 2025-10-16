@@ -110,3 +110,25 @@ tmplset = settings.displaySet(hou.displaySetType.TemplateModel)
 
 tmplset.setShadedMode(hou.glShadingType.Smooth)
 tmplset.useGhostedLook(0)
+
+
+
+
+
+
+
+
+
+
+
+
+hscript free memory:
+opunload -R *; sopcache -c; geocache -c; objcache -c; sopcache 
+
+
+#get current SL camera:
+import hou
+cam = "/obj/"+str(hou.parm("../../sl_sequence_manager1/SQL_Current_Shot").eval())+"_render"
+return cam
+
+
