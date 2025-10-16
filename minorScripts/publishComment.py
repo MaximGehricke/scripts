@@ -61,5 +61,22 @@ for c in hou.selectedNodes():
     Asset OTL: v{astVer:03}
     Groom OTL: v{grmVer:03}
     """
-    try
-    [pasted text truncated for security]
+    try:
+        if(cfxVer):
+            comment += f"Baby cache: CFX v{cfxVer:03}"
+        elif(animVer):
+            comment += f"Baby cache: ANIM v{animVer:03}"
+        else:
+            comment += f"Baby cache: LAYOUT v{layoutVer:03}"
+    except:
+        hou.ui.displayMessage("Could not find Baby CFX, ANIM or layout cache version!")
+    
+    autocomp.parm('output_annotation1').set(comment)
+
+    #set node network view comment
+    current_time = datetime.datetime.now().time()
+    formatted_time = datetime.datetime.now().strftime("%d-%m %H:%M")
+    autocomp.parm('cmp_node_label_description').set(f"{userDesc} ({formatted_time})")
+    autocomp.parm('cmp_node_label_description').pressButton() #refresh callback pls
+    autocomp.parm('cmp_node_label_output_toggle').set(0)
+    autocomp.parm('cmp_node_label_output_toggle').pressButton()
